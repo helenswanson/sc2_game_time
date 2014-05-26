@@ -2,16 +2,16 @@
 <html lang="en">
   <head>
     <title>NFL Teams</title>
-    <link rel="stylesheet" href="home.css" />
   </head>
 
   <body>
     <h1>NFL Scoreboard</h1>
 
-    <ul>
-      <% @team_list.each do |team| %>
-        <li><a href="/teams/<%="#{team}"%>"><%="#{team}"%></a>: </li>
+    <ol>
+      <% @sorted_scorecard.each do |team_info| %>
+        <li><a href="/teams/<%="#{team_info[0]}"%>"><%="#{team_info[0]}"%></a> - wins: <%="#{team_info[1][:wins]}"%>, losses: <%="#{team_info[1][:losses]}"%>, ties: <%="#{team_info[1][:ties]}"%></li>
       <% end %>
-    </ul>
+    </ol>
+
   </body>
 </html>
