@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>NFL Leaderboard</title>
+  </head>
+
+  <body>
+    <h1>NFL Leaderboard</h1>
+
+    <ol>
+      <% @leaderboard.each do |team_info| %>
+        <li><a href="/teams/<%="#{team_info[0]}"%>"><%="#{team_info[0]}"%></a>
+        - wins: <%="#{team_info[1][:wins]}"%>
+        - losses: <%="#{team_info[1][:losses]}"%></li>
+      <% end %>
+    </ol>
+
+  </body>
+</html>

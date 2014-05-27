@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>NFL Team: <%= @team_title %></title>
+  </head>
+
+  <body>
+    <h1>
+      NFL Team: <%= @team_title %>
+    </h1>
+    <p>
+      <% @leaderboard.each do |team_info| %>
+        <% if @team_title == team_info[0] %>
+          <%="#{team_info[0]}"%>
+          - wins: <%="#{team_info[1][:wins]}"%>
+          - losses: <%="#{team_info[1][:losses]}"%>
+        <% end %>
+      <% end %>
+      <br/><br/><br/>
+
+      <% @game_matchups.each do |game_info| %>
+        <% if @team_title == game_info["home_team"] or @team_title == game_info["away_team"] %>
+          Home team: <%= "#{game_info["home_team"]}" %><br/>
+          Away team: <%= "#{game_info["away_team"]}" %><br/>
+          Home score: <%= "#{game_info["home_score"]}" %><br/>
+          Away score: <%= "#{game_info["away_score"]}" %><br/>
+          <br/>
+        <% end %>
+      <% end %>
+
+      <br/><br/>
+      <a href="http://localhost:4567/">Back</a>
+    </p>
+  </body>
+</html>

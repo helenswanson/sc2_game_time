@@ -29,50 +29,38 @@ def create_scorecard_template(game_matchups, team_list)
   scorecard_template
 end
 
-#TEAM_SCORECARD RETURN IS NOT A CORRECT========================
 #calculate number of wins/losses/ties for each team
 def calculate_team_scorecard(game_matchups, scorecard_template)
   team_scorecard = scorecard_template
   #based on game results, increase appropriate wins/losses/ties values
   game_matchups.each do |game_info|
-    # home_team = game_info["home_team"]
-    # away_team = game_info["away_team"]
-    # home_score = game_info["home_score"]
-    # away_score = game_info["away_score"]
-    if game_info["home_score"] > game_info["away_score"]
+    home_team = game_info["home_team"]
+    away_team = game_info["away_team"]
+    home_score = game_info["home_score"].to_i
+    away_score = game_info["away_score"].to_i
+    if home_score > away_score
       #add 1 win to home_team and add 1 loss to away_team
-      team_scorecard[game_info["home_team"]][:wins] += 1
-      team_scorecard[game_info["away_team"]][:losses] += 1
-    elsif game_info["home_score"] < game_info["away_score"]
+      team_scorecard[home_team][:wins] += 1
+      team_scorecard[away_team][:losses] += 1
+    elsif home_score < away_score
       #add 1 win to away_team and add 1 loss to home_team
-      team_scorecard[game_info["home_team"]][:losses] += 1
-      team_scorecard[game_info["away_team"]][:wins] += 1
+      team_scorecard[home_team][:losses] += 1
+      team_scorecard[away_team][:wins] += 1
     else
       #add 1 tie to both home_team and away_team
-      team_scorecard[game_info["home_team"]][:ties] += 1
-      team_scorecard[game_info["away_team"]][:ties] += 1
+      team_scorecard[home_team][:ties] += 1
+      team_scorecard[away_team][:ties] += 1
     end
   end
   team_scorecard.to_a
 end
 
-
-
-#sort team_scoreboard create scoreboard array of hashes, team name key with
-# an array of win/loss/tie values
-def sort_team_scorecard(team_scorecard)
-  team_scorecard
-  binding.pry
-  #sort scorecard first by ties in decending order
-  team_scorecard.sort_by! {|team_info| team_info[1][:ties]}.reverse!
-  binding.pry
-  #sort scorecard second by wins in decending order
-  team_scorecard.sort_by! {|team_info| team_info[1][:wins]}.reverse!
+#sort team_scoreboard by wins, then ties, then losses
+def create_leaderboard(team_scorecard)
+  #sort scorecard first by wins in decending order
+  #sort scorecard then by ties in decending order
   #sort scorecard last by losses in ascending order
-  binding.pry
-  team_scorecard.sort_by! {|team_info| team_info[1][:losses]}
-
-  binding.pry
+  team_scorecard.sort_by! {|team_info| [team_info[1][:wins], team_info[1][:ties], -team_info[1][:losses]]}.reverse!
 end
 
 
@@ -93,13 +81,13 @@ scorecard_template = create_scorecard_template(game_matchups, team_list)
 puts scorecard_template
 puts
 
-#TEAM_SCORECARD IS NOT A CORRECT=========================
 #calculate the win/loss/tie scores for each team
 team_scorecard = calculate_team_scorecard(game_matchups, scorecard_template)
 puts team_scorecard
 puts
 
 #provide correct team_scorecard data
+#team_scorecard is the output a working calculate_team_scorecard will output
 team_scorecard = [["Broncos", {:wins=>1, :losses=>1, :ties=>0}],
  ["Steelers", {:wins=>0, :losses=>1, :ties=>0}],
  ["Patriots", {:wins=>3, :losses=>0, :ties=>0}],
@@ -112,6 +100,6 @@ puts team_scorecard
 puts
 
 #sort scorecard with best teams on top
-sorted_scorecard = sort_team_scorecard(team_scorecard)
+leaderboard = create_leaderboard(team_scorecard)
 puts scoreboard
 puts
