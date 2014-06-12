@@ -61,10 +61,12 @@ def create_leaderboard(team_scorecard)
   #sort scorecard first by wins in decending order
   #sort scorecard then by ties in decending order
   #sort scorecard last by losses in ascending order
-  team_scorecard.sort_by! {|team_info| [team_info[1][:wins], team_info[1][:ties], -team_info[1][:losses]]}.reverse!
+  team_scorecard.sort_by {|team_info| [-team_info[1][:wins], -team_info[1][:ties], team_info[1][:losses]]}
 end
 
+
 #=====================================================
+
 
 #redirect host to leaderboard page
 get '/' do
@@ -91,4 +93,36 @@ get '/teams/:team_name' do
   @leaderboard = create_leaderboard(team_scorecard)
   erb :show
 end
+
+
+#EE SUGGESTIONS
+
+# def create_team_list (game_matchups)
+#   game_matchups.each do |game|
+#     if teams.include?(game["home_team"])
+#       teams << game["home_team"]
+#     end
+
+#     if teams.include?(game["away_team"])
+#       teams << game["away_team"]
+#     end
+#   end
+# end
+
+# def create_leaderboard(game_matchups)
+#   # game_matchups = export_csv('csv')
+#   team_list = create_team_list(game_matchups)
+#   scorecard_template = create_scorecard_template(game_matchups, team_list)
+#   team_scorecard = calculate_team_scorecard(game_matchups, scorecard_template)
+
+#   #sort scorecard first by wins in decending order
+#   #sort scorecard then by ties in decending order
+#   #sort scorecard last by losses in ascending order
+#   team_scorecard.sort_by! {|team_info| [team_info[1][:wins], team_info[1][:ties], -team_info[1][:losses]]}.reverse!
+# end
+# #in '/leaderboard', @leaderboard = create_leaderboard(@game_matchups)
+
+
+
+
 
